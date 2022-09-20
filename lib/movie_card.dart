@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:coolapp/movie_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:coolapp/constants.dart';
 import 'package:coolapp/models/movie.dart';
@@ -18,23 +19,7 @@ class MovieCard extends StatelessWidget {
         openElevation: 0,
         closedBuilder: (context, action) => buildMovieCard(context),
         openBuilder: (context, action) {
-          return Scaffold(
-            backgroundColor: Colors.black,
-            appBar: AppBar(
-              backgroundColor: Colors.black,
-              leading: BackButton(
-                color: Colors.white,
-              ),
-            ),
-            body: Center(
-              child: Text(
-                movie.title,
-                style: Theme.of(context).textTheme.headline5!.copyWith(
-                      color: Colors.white,
-                    ),
-              ),
-            ),
-          );
+          return MovieDetails(movie: movie);
         },
       ),
     );

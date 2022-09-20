@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: buildAppBar(),
+        drawer: Navbar(),
+        appBar: buildAppBar(context),
         body: Body()
       ),
       theme: ThemeData(
@@ -29,15 +30,16 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  AppBar buildAppBar() {
+  AppBar buildAppBar(context) {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
-      leading: IconButton(
-        padding: EdgeInsets.only(left: kDefaultPadding),
-        icon: SvgPicture.asset("assets/icons/menu.svg"),
-        onPressed: () {},
-      ),
+      // leading: IconButton(
+      //   padding: EdgeInsets.only(left: kDefaultPadding),
+      //   icon: SvgPicture.asset("assets/icons/menu.svg"),
+      //   onPressed: () => {},
+      // ),
+      iconTheme: IconThemeData(color: Colors.black),
       actions: <Widget>[
         IconButton(
           padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
@@ -45,6 +47,68 @@ class MyApp extends StatelessWidget {
           onPressed: () {},
         ),
       ],
+    );
+  }
+}
+
+class Navbar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFFE63946),
+                  Color(0xFF457b9d),
+                ],
+              ),
+            ),
+            accountName: Text("Juan Angela Alma"), 
+            accountEmail: Text("juanangelaalma@gmail.com"),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: kSecondaryColor,
+              child: CircleAvatar(
+                backgroundImage: AssetImage("assets/images/user.jpg"),
+                radius: 50.0,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.favorite, color: Colors.grey,),
+            title: Text('Favorites'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.movie_sharp, color: Colors.grey,),
+            title: Text('Movies'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.star, color: Colors.grey,),
+            title: Text('Reviews'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.exit_to_app, color: Colors.grey,),
+            title: Text('Log Out'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
     );
   }
 }
@@ -116,6 +180,19 @@ class _CategoryListState extends State<CategoryList> {
                 color: index == selectedCategory
                     ? kSecondaryColor
                     : Colors.transparent,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: index == selectedCategory
+                      ? [
+                          Color(0xFFE63946),
+                          Color(0xFF457b9d),
+                        ]
+                      : [
+                          Colors.transparent,
+                          Colors.transparent,
+                        ],
+                ),
               ),
             )
           ],
