@@ -1,4 +1,6 @@
 // Our movie model
+import 'dart:ffi';
+
 class Movie {
   final int id, year, numOfRatings, criticsReview, metascoreRating;
   final double rating;
@@ -20,6 +22,55 @@ class Movie {
     required this.plot,
     required this.cast,
   });
+
+  factory Movie.fromJson(Map<String, dynamic> json) {
+    // return Movie(
+    //   poster: "http",
+    //   backdrop: "http",
+    //   title: "title",
+    //   id: 123,
+    //   // year: json["release_date"],
+    //   year: 1999,
+    //   numOfRatings: 20,
+    //   // criticsReview: json["criticsReview"],
+    //   criticsReview: 88,
+    //   // metascoreRating: json["metascoreRating"],
+    //   metascoreRating: 18,
+    //   rating: 8.8,
+    //   genra: ["Action", "Drama"],
+    //   plot: "plot",
+    //   cast: [
+    //   {
+    //     "orginalName": "James Mangold",
+    //     "movieName": "Director",
+    //     "image": "assets/images/actor_1.png",
+    //   },
+    //   ]
+    // );
+    return Movie(
+      poster: json["poster_path"],
+      backdrop: json["backdrop_path"],
+      title: json["original_title"],
+      id: json["id"],
+      // year: json["release_date"],
+      year: 1999,
+      numOfRatings: json["vote_count"],
+      // criticsReview: json["criticsReview"],
+      criticsReview: 88,
+      // metascoreRating: json["metascoreRating"],
+      metascoreRating: 18,
+      rating: double.parse(json["vote_average"].toString()),
+      genra: ["Action", "Drama"],
+      plot: json["overview"],
+      cast: [
+      {
+        "orginalName": "James Mangold",
+        "movieName": "Director",
+        "image": "assets/images/actor_1.png",
+      },
+      ]
+    );
+  }
 }
 
 // our demo data movie data

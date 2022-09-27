@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'constants.dart';
 import 'dart:math' as math;
+
+import 'package:http/http.dart' as http;
 
 import 'package:coolapp/models/movie.dart';
 import 'movie_card.dart';
@@ -113,7 +117,13 @@ class Navbar extends StatelessWidget {
   }
 }
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -136,7 +146,7 @@ class CategoryList extends StatefulWidget {
 
 class _CategoryListState extends State<CategoryList> {
   int selectedCategory = 0;
-  List<String> categories = ["In Theater", "Box Office", "Coming Soon"];
+  List<List> categories = [["In Theater", "now_playing"], ["Popular", "popular"], ["Coming Soon", "upcoming"]];
 
   Widget build(BuildContext context) {
     return Container(
@@ -163,7 +173,7 @@ class _CategoryListState extends State<CategoryList> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              categories[index],
+              categories[index][0],
               style: Theme.of(context).textTheme.headline5?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: index == selectedCategory
@@ -260,6 +270,9 @@ class MovieCarousel extends StatefulWidget {
 class _MovieCarouselState extends State<MovieCarousel> {
   late PageController _pageController;
   int initialPage = 1;
+  late Future<List<Movie>> mooooviess;
+  late List<Movie> values;
+  String category = "no_playing";
 
   @override
   void initState() {
@@ -270,6 +283,8 @@ class _MovieCarouselState extends State<MovieCarousel> {
       // by default our movie poster
       initialPage: initialPage,
     );
+    mooooviess = fetchMovies();
+    print("type of mooovies is: ${mooooviess.runtimeType}");
   }
 
   @override
@@ -284,20 +299,49 @@ class _MovieCarouselState extends State<MovieCarousel> {
       padding: EdgeInsets.symmetric(vertical: kDefaultPadding),
       child: AspectRatio(
         aspectRatio: 0.85,
-        child: PageView.builder(
-          onPageChanged: (value) {
-            setState(() {
-              initialPage = value;
-            });
+        child: FutureBuilder(
+          future: mooooviess,
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return PageView.builder(
+                onPageChanged: (value) {
+                  setState(() {
+                    initialPage = value;
+                  });
+                },
+                controller: _pageController,
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) => buildMovieSlider(index),
+              );
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            return CircularProgressIndicator();
           },
-
-          controller: _pageController,
-          physics: ClampingScrollPhysics(),
-          itemCount: movies.length,
-          itemBuilder: (context, index) => buildMovieSlider(index),
-        ),
+        )
       ),
     );
+  }
+
+  Future<List<Movie>> fetchMovies() async {
+    final response = await http.get(Uri.parse("https://api.themoviedb.org/3/movie/now_playing?api_key=0ca75ba174c9f3648dffe5e8f05a3266"));
+    if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    // return Album.fromJson(jsonDecode(response.body));
+    var body = jsonDecode(response.body);
+    var results = body['results'];
+    List<Movie> moviesResult = [];
+    for (var movie in results) {
+      moviesResult.add(Movie.fromJson(movie));
+    }
+    values = moviesResult;
+    return moviesResult;
+    } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
   }
 
   Widget buildMovieSlider(int index) => AnimatedBuilder(
@@ -313,7 +357,7 @@ class _MovieCarouselState extends State<MovieCarousel> {
         opacity: initialPage == index ? 1 : 0.4,
         child: Transform.rotate(
           angle: math.pi * value,
-          child: MovieCard(movie: movies[index]),
+          child: MovieCard(movie: values[index]),
         ),
       );
     },
