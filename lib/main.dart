@@ -11,6 +11,8 @@ import 'package:http/http.dart' as http;
 import 'package:coolapp/models/movie.dart';
 import 'movie_card.dart';
 
+List<List> categories = [["In Theater", "now_playing"], ["Popular", "popular"], ["Coming Soon", "upcoming"]];
+
 void main() {
   runApp(const MyApp());
 }
@@ -123,31 +125,43 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  
+  int selectedCategory = 0;
+  List<List> categories = [["In Theater", "now_playing"], ["Popular", "popular"], ["Coming Soon", "upcoming"]];
+
+  void _manageState(value) {
+    setState(() {
+      selectedCategory = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          CategoryList(),
+          CategoryList(categories: categories, onClickCategory: _manageState, selectedCategory: selectedCategory),
           Genres(),
           SizedBox(height: kDefaultPadding,),
-          MovieCarousel()
+          MovieCarousel(selectedCategory: selectedCategory),
         ],
       )
     );
   }
 }
 
-class CategoryList extends StatefulWidget {
-  @override
-  _CategoryListState createState() => _CategoryListState();
-}
 
-class _CategoryListState extends State<CategoryList> {
-  int selectedCategory = 0;
-  List<List> categories = [["In Theater", "now_playing"], ["Popular", "popular"], ["Coming Soon", "upcoming"]];
+class CategoryList extends StatelessWidget {
+  var categories;
+  var selectedCategory;
+  
+  final ValueChanged onClickCategory;
 
+  void manageState(value) {
+    onClickCategory(value);
+  }
+
+  CategoryList({Key? key, this.categories, required this.onClickCategory, required this.selectedCategory}) : super(key: key); 
+  
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: kDefaultPadding / 2),
@@ -155,20 +169,16 @@ class _CategoryListState extends State<CategoryList> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
-        itemBuilder: (context, index) => buildCategory(index, context),
+        itemBuilder: (context, index) => buildCategory(index, context, manageState),
       ),
     );
   }
 
-  Padding buildCategory(int index, BuildContext context) {
+  Padding buildCategory(int index, BuildContext context, manageState){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
       child: GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedCategory = index;
-          });
-        },
+        onTap: () => manageState(index),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -263,8 +273,12 @@ class Genres extends StatelessWidget {
 }
 
 class MovieCarousel extends StatefulWidget {
+  final int selectedCategory;
+
+  const MovieCarousel({Key? key, required this.selectedCategory}) : super(key: key);
+
   @override
-  _MovieCarouselState createState() => _MovieCarouselState();
+  _MovieCarouselState createState() => _MovieCarouselState(selectedCategory);
 }
 
 class _MovieCarouselState extends State<MovieCarousel> {
@@ -273,6 +287,17 @@ class _MovieCarouselState extends State<MovieCarousel> {
   late Future<List<Movie>> mooooviess;
   late List<Movie> values;
   String category = "no_playing";
+
+  _MovieCarouselState(int selectedCategory) {
+    if (selectedCategory == 0) {
+      category = "now_playing";
+    } else if (selectedCategory == 1) {
+      category = "popular";
+    } else if (selectedCategory == 2) {
+      category = "upcoming";
+    }
+    // mooooviess = fetchMovies(category);
+  }
 
   @override
   void initState() {
@@ -283,7 +308,7 @@ class _MovieCarouselState extends State<MovieCarousel> {
       // by default our movie poster
       initialPage: initialPage,
     );
-    mooooviess = fetchMovies();
+    mooooviess = fetchMovies(category);
     print("type of mooovies is: ${mooooviess.runtimeType}");
   }
 
@@ -323,12 +348,9 @@ class _MovieCarouselState extends State<MovieCarousel> {
     );
   }
 
-  Future<List<Movie>> fetchMovies() async {
-    final response = await http.get(Uri.parse("https://api.themoviedb.org/3/movie/now_playing?api_key=0ca75ba174c9f3648dffe5e8f05a3266"));
+  Future<List<Movie>> fetchMovies([selectedNow = "now_playing"]) async {
+    final response = await http.get(Uri.parse("https://api.themoviedb.org/3/movie/${selectedNow}?api_key=0ca75ba174c9f3648dffe5e8f05a3266"));
     if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    // return Album.fromJson(jsonDecode(response.body));
     var body = jsonDecode(response.body);
     var results = body['results'];
     List<Movie> moviesResult = [];
@@ -340,7 +362,7 @@ class _MovieCarouselState extends State<MovieCarousel> {
     } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Failed to load album');
+    throw Exception('Failed to load movie');
   }
   }
 
