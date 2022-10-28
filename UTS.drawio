@@ -1,1 +1,49 @@
-<mxfile host="app.diagrams.net" modified="2022-10-28T06:33:34.498Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36" version="20.5.1" etag="Nha7W9ZZTwBvYUlizDfb" type="github"><diagram id="B251NugsWzoPd4SDN37e">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2022-10-28T06:37:30.121Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36" etag="0PXjceYI8edEIfInvKnD" version="20.5.1" type="github">
+  <diagram id="B251NugsWzoPd4SDN37e" name="Halaman-1">
+    <mxGraphModel dx="914" dy="547" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2336" pageHeight="1654" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="0clVsL5dOq3qMBQrPElE-1" value="Pengguna" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="430" y="210" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0clVsL5dOq3qMBQrPElE-2" value="Administrator" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="250" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0clVsL5dOq3qMBQrPElE-3" value="Login" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="70" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="0clVsL5dOq3qMBQrPElE-4" value="Registrasi" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="200" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="0clVsL5dOq3qMBQrPElE-5" value="Melakukan transaksi rental mobil" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="310" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="0clVsL5dOq3qMBQrPElE-6" value="Mengubah data mobil" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="450" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="0clVsL5dOq3qMBQrPElE-7" value="Mengubah data pribadi" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="820" y="400" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="0clVsL5dOq3qMBQrPElE-8" value="Menambah data mobil" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="830" y="530" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="0clVsL5dOq3qMBQrPElE-9" value="Melihat data mobil" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="385" y="620" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="0clVsL5dOq3qMBQrPElE-10" value="Berdasarkan status" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="530" y="690" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="0clVsL5dOq3qMBQrPElE-11" value="Berdasarkan bahan bakar" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="730" y="680" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="0clVsL5dOq3qMBQrPElE-12" value="Menghapus data mobil" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="940" y="640" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="0clVsL5dOq3qMBQrPElE-13" value="Melihat data pengguna" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="460" width="120" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
